@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "mysql": "^2.17.1",
+    "mysql2-promise": "^0.1.4",
     "sha256": "^0.2.0"
   }
 }
