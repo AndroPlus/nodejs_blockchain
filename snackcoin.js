@@ -74,9 +74,9 @@ const nextBlock = (lastBlock, data) =>
         // Get their chains using a GET request
         block = requests.get(node_url + "/blocks").content
         // Convert the JSON object to a Python dictionary
-        block = json.loads(block)
+        block = JSON.stringify(block)
         // Add it to our list
-        other_chains.append(block)
+        other_chains.push(block)
     }
     return other_chains
   }
@@ -127,7 +127,7 @@ function consensus() {
   this_nodes_transactions = []
   // Now create the
   //new block!
-  let mined_block = Block(
+  let mined_block = new Block(
     new_block_index,
     new_block_timestamp,
     new_block_data,
@@ -135,9 +135,9 @@ function consensus() {
   )
   blockchain.push(mined_block)
   // Let the client know we mined a block
-  return json.dumps({
+  return JSON.stringify({
       "index": new_block_index,
-      "timestamp": str(new_block_timestamp),
+      "timestamp": new_block_timestamp+"",
       "data": new_block_data,
       "hash": last_block_hash
   }) + "\n"
