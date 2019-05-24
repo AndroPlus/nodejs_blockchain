@@ -3,9 +3,6 @@ const http = require('http');
 const { parse } = require('querystring');
 const sha256 = require('sha256');
 
-//const DbConnection = require('./DbConnection.js');
-
-
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
@@ -35,6 +32,7 @@ const server = http.createServer((req, res) => {
         var block = {}
 
       rows =  getRows();
+
       rows.then(function (resul) {
 
          var rows  = resul[0]
@@ -67,7 +65,7 @@ const server = http.createServer((req, res) => {
       })
       
         
-            res.end(`Parsed data belonging to ${result.from}`);
+            res.end(`Succesfully added Block into BlockChain!`);
         });        
     }
     else {
