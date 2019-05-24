@@ -2,6 +2,7 @@ const mysql = require('mysql2');
 const http = require('http');
 const { parse } = require('querystring');
 const sha256 = require('sha256');
+
 //const DbConnection = require('./DbConnection.js');
 
 
@@ -14,13 +15,31 @@ const pool = mysql.createPool({
     queueLimit: 0
   });
 
+  async function getRows() {
+    // get the client
+    const mysql = require('mysql2/promise');
+    // create the connection
+    const connection = await mysql.createConnection({host:'localhost', user: 'root', database: 'blockchain'});
+    // query database
+    const [rows, fields] = await connection.execute('SELECT * FROM `block` ORDER BY block_index DESC LIMIT 1');
+
+    return rows;
+  }
 
 const server = http.createServer((req, res) => {
     if (req.method === 'POST') {
         collectRequestData(req, result => {
-            
-            hash = hash_block(result)
-            var block = {
+    
+        hash = hash_block(result)
+
+        var block = {}
+
+      rows =  getRows();
+      rows.then(function (resul) {
+
+         var rows  = resul[0]
+         if(resul.length == 0){
+            block = {
                 block_index : 0,
                 block_timestamp : Date.now(),
                 block_data : JSON.stringify(result),
@@ -28,9 +47,26 @@ const server = http.createServer((req, res) => {
                 block_hash : hash
               };
 
-              console.log(block)
+            console.log("first block")
+         }else{
+            block = {
+                block_index : rows.block_index + 1,
+                block_timestamp : Date.now(),
+                block_data : JSON.stringify(result),
+                block_prevhash : rows.block_hash,
+                block_hash : hash
+              };
 
-             insertBlock(block.block_index, block.block_timestamp, block.block_data, block.block_prevhash, block.block_hash) 
+            console.log("next block")
+         }
+        
+        console.log(block)
+
+        insertBlock(block.block_index, block.block_timestamp, block.block_data, block.block_prevhash, block.block_hash) 
+    
+      })
+      
+        
             res.end(`Parsed data belonging to ${result.from}`);
         });        
     }
@@ -53,6 +89,7 @@ const server = http.createServer((req, res) => {
 });
 
 async function insertBlock(block_index, block_timestamp, block_data, block_prevhash, block_hash) {
+
     await pool.query(
         'INSERT INTO block SET ?',
         { block_index, block_timestamp, block_data, block_prevhash, block_hash } ,
@@ -63,7 +100,7 @@ async function insertBlock(block_index, block_timestamp, block_data, block_prevh
   }
 
   function hash_block(obj) {
-   return sha256( Date.now() + "obj" + '0');
+   return sha256( Date.now() + JSON.stringify(obj) + '0');
   }
 
 async function getAllBlocks() {
