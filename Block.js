@@ -2,17 +2,17 @@
 const sha256 = require('sha256');
 
 class Block {
-    constructor(index, timestamp, data, prevHash) {
+    constructor(index, timestamp, data, previous_hash) {
       this.index = index;
       this.timestamp = timestamp;
       this.data = data;
-      this.prevHash = prevHash;
-      this.thisHash = this.hasBlock()
+      this.previous_hash = previous_hash;
+      this.hash = this.hasBlock()
     }
 
     hasBlock(){
         return sha256(
-            this.index + this.timestamp + this.data + this.prevHash
+            this.index + this.timestamp + this.data + this.previous_hash
           );
     }
   }

@@ -1,6 +1,6 @@
 {
   "name": "tinyCurrency",
-  "version": "1.0.0",
+  "version": "1.0.0.0",
   "description": "",
   "main": "snackcoin.js",
   "scripts": {
@@ -14,6 +14,8 @@
     "mysql": "^2.17.1",
     "mysql2": "^1.6.5",
     "mysql2-promise": "^0.1.4",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
     "sha256": "^0.2.0"
   }
 }

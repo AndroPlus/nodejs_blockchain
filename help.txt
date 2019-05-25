@@ -1,0 +1,5 @@
+https://appdividend.com/2018/08/28/node-async-await-example-tutorial/
+https://enlight.nyc/projects/blockchain/
+https://developers.caffeina.com/chiccocoin-learn-what-is-a-blockchain-by-creating-one-in-nodejs-12929a89208b
+https://medium.com/coinmonks/understanding-and-building-your-own-tiny-blockchain-in-javascript-a16f2137cfec
+http://www.darrenbeck.co.uk/blockchain/nodejs/nodejscrypto/
